@@ -46,8 +46,8 @@ Our API offers 4 different routes that can be used:
 
 - `GET /wallet/original` retrieves the original wallet without conversions
 - `GET /wallet` retrieves the wallet converted to PLN as well as the PLN total
-- `POST /wallet/add/{currency}/{amount}` adds a given quantity of a currency to the user's wallet
-- `POST /wallet/subtract/{currency}/{amount}` removes a given quantity of a currency from the user's wallet
+- `POST /wallet/add/{currency_code}/{balance}` adds a given quantity of a currency to the user's wallet
+- `POST /wallet/subtract/{currency_code}/{balance}` removes a given quantity of a currency from the user's wallet
 
 ## Project structure
 
