@@ -86,7 +86,8 @@ class WalletService:
         if balance < 0:
             # ...so let's add an update condition to make sure
             # that if we subtract from a currency that the currency holding won't go below zero
-            query_args["ConditionExpression"] = "balances.#currency >= :balVal"
+            query_args["ExpressionAttributeValues"][":absbalVal"] = abs(balance)
+            query_args["ConditionExpression"] = "balances.#currency >= :absbalVal"
 
         wallets_table.update_item(**query_args)
 

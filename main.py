@@ -1,5 +1,7 @@
 from typing import Annotated
 
+from botocore.exceptions import ClientError
+
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 
@@ -54,7 +56,14 @@ async def subtract_balance_from_wallet(
     """
     Removes a given quantity of a currency from the wallet
     """
-    WalletService.subtract_from_wallet(user_id, currency_code, balance)
+    try:
+        WalletService.subtract_from_wallet(user_id, currency_code, balance)
+    except ClientError as error:
+        if error.response["Error"]["Code"] == "ConditionalCheckFailedException":
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Can't subtract more than balance",
+            )
 
 
 @app.post("/token")

@@ -211,6 +211,29 @@ class TestAPI:
         assert response["balances"]["USD"] ==  target_value
 
 
+    def test_subtract_balance_too_big(self, mocked_aws, login):
+        """
+        Ensure that the user can't subtract from the wallet
+        in a way that leaves their balance less than 0
+        """
+        res = mocked_aws.post(
+            url="/wallet/subtract/USD/500",
+            headers={'Authorization': f"Bearer {login["access_token"]}"}
+        )
+
+        assert res.status_code == 400
+
+        res = mocked_aws.get(
+            url="/wallet/original",
+            headers={'Authorization': f"Bearer {login["access_token"]}"}
+        )
+
+        response = res.json()
+
+        target_value = DEFAULT_WALLET_DATA["balances"]["USD"]
+
+        assert response["balances"]["USD"] ==  target_value
+
     def test_subtract_balance_negative(self, mocked_aws, login):
         """
         Verify that an invalid value can't be
