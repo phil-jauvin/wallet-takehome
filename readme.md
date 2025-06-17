@@ -77,7 +77,7 @@ at the code:
 
 In the `test` directory you'll find all test-related functionality.
 The `test_api.py` file contains some basic test cases
-which are defined using the `pytest` framework.
+which make use of the `pytest` framework.
 
 The dependencies needed to run these tests are mocked (where reasonable),
 the fixtures and configurations can be found in the
