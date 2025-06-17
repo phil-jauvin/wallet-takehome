@@ -3,8 +3,6 @@ from typing import Annotated
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 
-from clients.exchange_rates import ExchangeRateAPIError
-
 from models.auth import Token
 from models.util import NonNegativeDecimal
 from models.wallet import ClientWallet, CommonWalletData, Currency
@@ -31,14 +29,8 @@ async def get_wallet(user_id: Annotated[str, Depends(AuthService.get_user_id)]) 
     Returns an object containing wallet balances
     converted to local currency, as well as the sum of all balances
     """
-    try:
-        data = WalletService.get_local_currency_wallet(user_id)
-        return data
-    except ExchangeRateAPIError:
-        raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="Error retrieving exchange rate",
-        )
+    data = WalletService.get_local_currency_wallet(user_id)
+    return data
 
 
 @app.post("/wallet/add/{currency_code}/{balance}")
