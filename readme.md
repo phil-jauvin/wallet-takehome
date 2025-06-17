@@ -64,7 +64,7 @@ Lastly, Pydantic models are defined in the `models` directory
 and used throughout the application.
 
 There are some other miscellaneous items such as environment configs
-in the `env` directory as well the `requirements` files used
+in the `env` directory as well as the `requirements` files used
 to install the dependencies.
 
 Perhaps the following items could be of most interest when first looking
